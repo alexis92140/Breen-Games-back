@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cookieParser from 'cookie-parser';
 import { handleError } from './helpers/errors';
 import setupRoutes from './router';
@@ -20,7 +20,7 @@ const corsOptions: cors.CorsOptions = {
 app.use(cors(corsOptions));
 
 //middleware perso pour ajouter les headers nécessaires à react-admin
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((_req: Request, res: Response, next: NextFunction) => {
   res.setHeader('Content-Type', 'application/json');
   res.setHeader('Access-Control-Expose-Headers', 'Content-Range');
   next();
@@ -28,6 +28,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 //middleware pour lire le body
 app.use(express.json());
+
 //middleware pour envoyer des cookies
 app.use(cookieParser());
 
